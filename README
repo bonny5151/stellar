@@ -1,0 +1,8 @@
+require("./stellarlib.js")
+sdk = StellarSdk
+k1 = sdk.Keypair.random()
+k2 = getaccountkey("privatekey")
+a = await fundnewaccount({key: k2, to: k1.publicKey(), amount: 9})
+aa = await getaccount(k1)
+aa.balances
+s = await send({key: k1, to: k2.publicKey(), amount: 7})
