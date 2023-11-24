@@ -6,7 +6,7 @@ getaccountkey = function getaccountkey(key) {
  return StellarSdk.Keypair.fromSecret(key)
 
 }
-
+getwallet=getaccountkey
 gettransactions = async function getransactions(key) {
  
  key = getpublickey(key)
@@ -20,6 +20,7 @@ getpublickey = function getpublickey(key)
 
 getaccount = async function getaccount(key) {
   key = getpublickey(key)
+  if(!key.startsWith("G")) {return 0}
   return server.loadAccount(key)
 }
 
@@ -46,8 +47,9 @@ fundnewaccount = async function fundnewaccount({key, ac, to, amount}) {
 }
 
 //{transaction , key , ac , to, amount} = 
-send = async function send({key, ac, to, amount, memo})
+send = async function send({key, ac, wallet, to, amount, memo})
 {
+   if(!key)  { key = wallet|| ac}
    var transaction = await startnewtransaction(key, ac)
    var t1=transaction.addOperation(StellarSdk.Operation.payment({
                destination: to, asset: StellarSdk.Asset.native(), amount: amount + ""}))
